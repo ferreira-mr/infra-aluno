@@ -1,8 +1,8 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "debian/buster64"
+  config.vm.box = "debian/bookworm64"
 
-  # Configuração da rede pública (Bridged) para receber IP via DHCP
-  config.vm.network "public_network"
+  # Configuração da rede privada com IP fixo
+  config.vm.network "private_network", ip: "192.168.56.10"
 
   # Configuração de hardware da VM
   config.vm.provider "virtualbox" do |vb|
@@ -11,41 +11,34 @@ Vagrant.configure("2") do |config|
     vb.cpus = 1
   end
 
-  # Provisionamento para instalar VirtualBox Guest Additions
-  config.vm.provision "shell", inline: <<-SHELL
-    export DEBIAN_FRONTEND=noninteractive
-    apt-get update
-    apt-get install -y build-essential dkms linux-headers-$(uname -r)
-    mount -o loop /usr/share/virtualbox/VBoxGuestAdditions.iso /mnt
-    sh /mnt/VBoxLinuxAdditions.run --nox11
-    umount /mnt
-    systemctl restart vboxadd vboxadd-service
-  SHELL
-
   # Sincronizar pasta do host com o diretório do Apache na VM
-  config.vm.synced_folder "./competidor-01", "/var/www/html"
+  config.vm.synced_folder "./competidor-01", "/var/www/html", type: "virtualbox", create: true
 
   # Provisionamento da VM (instalação do ambiente LAMP)
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y apache2 mariadb-server php libapache2-mod-php php-mysql sudo openssh-server
-    chown -R competidor:www-data /var/www/html
-    chmod -R 777 /var/www/html
 
+    # Criação do usuário competidor antes de alterar permissões
     if ! id "competidor" &>/dev/null; then
         useradd -m -s /bin/bash competidor
-        echo "competidor:competidor" | chpasswd
+        echo "competidor:senai914" | chpasswd
         usermod -aG sudo competidor
     fi
 
-    sed -i "s/^#PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config
-    systemctl restart ssh
+    # Alterando permissões após criar o usuário
+    chown -R competidor:www-data /var/www/html
+    chmod -R 755 /var/www/html
+    
 
-    sed -i "s/^bind-address\s*=.*$/bind-address = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
+    # Habilitar conexões remotas no MariaDB
+    sed -i "s/^bind-address\\s*=.*$/bind-address = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
     systemctl restart mariadb
 
+    # Criação ou alteração da senha do usuário no MariaDB
     mysql -u root -e "
-    CREATE USER IF NOT EXISTS 'competidor'@'%' IDENTIFIED BY 'competidor';
+    CREATE USER IF NOT EXISTS 'competidor'@'%' IDENTIFIED BY 'senai914';
+    ALTER USER 'competidor'@'%' IDENTIFIED BY 'senai914';
     GRANT ALL PRIVILEGES ON *.* TO 'competidor'@'%' WITH GRANT OPTION;
     FLUSH PRIVILEGES;"
   SHELL
@@ -55,7 +48,7 @@ Vagrant.configure("2") do |config|
     echo '#!/bin/bash' > /etc/profile.d/show_ip.sh
     echo 'echo "##########################"' >> /etc/profile.d/show_ip.sh
     echo 'echo "IP do competidor-01:"' >> /etc/profile.d/show_ip.sh
-    echo 'ip -4 addr show eth1 | grep -oP "(?<=inet\s)\d+(\.\d+){3}"' >> /etc/profile.d/show_ip.sh
+    echo 'ip -4 addr show eth1 | grep -oP "(?<=inet\\s)\\d+(\\.\\d+){3}"' >> /etc/profile.d/show_ip.sh
     echo 'echo "##########################"' >> /etc/profile.d/show_ip.sh
     chmod +x /etc/profile.d/show_ip.sh
   SHELL
