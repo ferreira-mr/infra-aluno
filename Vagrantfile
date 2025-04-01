@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
 
   # Configuração de hardware da VM
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "competidor-01-v2"
+    vb.name = "servidor-sp-skills"
     vb.memory = "1024"
     vb.cpus = 1
   end
@@ -29,7 +29,6 @@ Vagrant.configure("2") do |config|
     # Alterando permissões após criar o usuário
     chown -R competidor:www-data /var/www/html
     chmod -R 755 /var/www/html
-    
 
     # Habilitar conexões remotas no MariaDB
     sed -i "s/^bind-address\\s*=.*$/bind-address = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -45,11 +44,17 @@ Vagrant.configure("2") do |config|
 
   # Exibir IP no terminal sempre que a VM for iniciada
   config.vm.provision "shell", inline: <<-SHELL
-    echo '#!/bin/bash' > /etc/profile.d/show_ip.sh
-    echo 'echo "##########################"' >> /etc/profile.d/show_ip.sh
-    echo 'echo "IP do competidor-01:"' >> /etc/profile.d/show_ip.sh
-    echo 'ip -4 addr show eth1 | grep -oP "(?<=inet\\s)\\d+(\\.\\d+){3}"' >> /etc/profile.d/show_ip.sh
-    echo 'echo "##########################"' >> /etc/profile.d/show_ip.sh
-    chmod +x /etc/profile.d/show_ip.sh
+    echo "##########################"
+    echo "IP do Servidor SP Skills"
+    ip -4 addr show eth1 | grep -oP "(?<=inet\\s)\\d+(\\.\\d+){3}"
+    echo "##########################"
   SHELL
+
+  config.vm.provision "shell", inline: <<-SHELL
+    # Habilitar autenticação SSH por senha apenas para o usuário competidor
+    echo "Match User competidor" >> /etc/ssh/sshd_config
+    echo "    PasswordAuthentication yes" >> /etc/ssh/sshd_config
+    systemctl restart ssh
+  SHELL
+
 end
