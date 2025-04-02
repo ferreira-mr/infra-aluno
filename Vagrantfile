@@ -14,19 +14,19 @@ Vagrant.configure("2") do |config|
   # Sincronizar pasta do host com o diretório do Apache na VM
   config.vm.synced_folder "./competidor-01", "/var/www/html", type: "virtualbox", create: true
 
-  # Provisionamento da VM (instalação do ambiente LAMP)
+  # Instalação do ambiente LAMP
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y apache2 mariadb-server php libapache2-mod-php php-mysql sudo openssh-server
 
-    # Criação do usuário competidor antes de alterar permissões
+    # Criação do usuário competidor
     if ! id "competidor" &>/dev/null; then
-        useradd -m -s /bin/bash competidor
-        echo "competidor:senai914" | chpasswd
-        usermod -aG sudo competidor
+      useradd -m -s /bin/bash competidor
+      echo "competidor:senai914" | chpasswd
+      usermod -aG sudo competidor
     fi
 
-    # Alterando permissões após criar o usuário
+    # Alterando permissões do diretório do Apache
     chown -R competidor:www-data /var/www/html
     chmod -R 755 /var/www/html
 
@@ -42,18 +42,34 @@ Vagrant.configure("2") do |config|
     FLUSH PRIVILEGES;"
   SHELL
 
-  # Exibir IP no terminal sempre que a VM for iniciada
-  config.vm.provision "shell", inline: <<-SHELL
-    echo "##########################"
-    echo "IP do Servidor SP Skills"
-    ip -4 addr show eth1 | grep -oP "(?<=inet\\s)\\d+(\\.\\d+){3}"
-    echo "##########################"
+  # Exibir IP no terminal (sempre que a máquina for iniciada)
+  config.vm.provision "shell", inline: <<-SHELL, run: "always"
+    echo ""
+    echo "##############################################################################"
+    echo "Acesso ao Servidor SP Skills"
+    echo ""
+    IP=$(ip -4 addr show eth1 | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')
+    echo "Acesso ao Apache (navegador web): http://$IP"
+    echo ""
+    echo "Conexão SFTP:"
+    echo "  Host: $IP"
+    echo "  Usuário: competidor"
+    echo "  Senha: senai914"
+    echo "  Porta: 22"
+    echo ""
+    echo "Conexão SSH:"
+    echo "  Host: $IP"
+    echo "  Usuário: competidor"
+    echo "  Senha: senai914"
+    echo "  Para conectar, use o comando: ssh competidor@$IP"
+    echo "##############################################################################"
+    echo ""
   SHELL
 
+  # Habilitar autenticação SSH por senha apenas para o usuário competidor
   config.vm.provision "shell", inline: <<-SHELL
-    # Habilitar autenticação SSH por senha apenas para o usuário competidor
     echo "Match User competidor" >> /etc/ssh/sshd_config
-    echo "    PasswordAuthentication yes" >> /etc/ssh/sshd_config
+    echo "  PasswordAuthentication yes" >> /etc/ssh/sshd_config
     systemctl restart ssh
   SHELL
 
