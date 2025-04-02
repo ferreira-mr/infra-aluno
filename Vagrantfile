@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", ip: "192.168.56.10"
 
   # Configuração da rede pública com DHCP, descomente esta linha caso queira que a máquina seja acessivel na rede local, lembre-se se comentar a linha de rede privada, utilize esta opção apenas se for necessário acessar a máquina virtual na rede local
-  # Atente-se ao fato que será solicita, no terminal, qual interface de rede deverá ser utilizada.
+  # Atente-se ao fato que será solicita, no terminal, qual interface de rede deverá ser utilizada e o IP "192.168.56.10" utilizado nos exemplos deverá ser alterado.
   # config.vm.network "public_network"
 
   # Configuração de hardware da VM
