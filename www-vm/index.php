@@ -56,7 +56,7 @@ $mysql_version = mysqli_get_client_version();
 
 <body>
   <img src="senai-logo.png" alt="Logo SENAI-SP" class="logo">
-  <h1>Seja bem-vindo ao servidor de treinamento da SP Skills@</h1>
+  <h1>Seja bem-vindo ao servidor de treinamento da SP Skills!</h1>
   <p>Este servidor foi configurado para auxiliar no desenvolvimento das suas habilidades. Explore os recursos
     disponíveis e aproveite ao máximo seu treinamento.</p>
 
