@@ -44,12 +44,12 @@ Vagrant.configure("2") do |config|
 
   # Exibir IP no terminal (sempre que a máquina for iniciada)
   config.vm.provision "shell", inline: <<-SHELL, run: "always"
+    IP=$(ip -4 addr show eth1 | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')
     echo ""
     echo "##############################################################################"
-    echo "Acesso ao Servidor SP Skills"
+    echo "Acessos ao Servidor SP Skills"
     echo ""
-    IP=$(ip -4 addr show eth1 | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')
-    echo "Acesso ao Apache (navegador web): http://$IP"
+    echo "Apache (navegador web): http://$IP"
     echo ""
     echo "Conexão SFTP:"
     echo "  Host: $IP"
@@ -61,12 +61,11 @@ Vagrant.configure("2") do |config|
     echo "  Host: $IP"
     echo "  Usuário: competidor"
     echo "  Senha: senai914"
-    echo "  Para conectar, use o comando: ssh competidor@$IP"
     echo "##############################################################################"
     echo ""
   SHELL
 
-  # Habilitar autenticação SSH por senha apenas para o usuário competidor
+  # Habilitar autenticação SSH ao usuário competidor
   config.vm.provision "shell", inline: <<-SHELL
     echo "Match User competidor" >> /etc/ssh/sshd_config
     echo "  PasswordAuthentication yes" >> /etc/ssh/sshd_config

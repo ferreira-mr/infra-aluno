@@ -1,166 +1,157 @@
+# Guia Técnico de Instalação e Utilização da VM com VirtualBox e Vagrant
 
-# Guia Completo de Instalação do VirtualBox e Vagrant
+Este guia detalha a instalação do VirtualBox e Vagrant, bem como os procedimentos para executar e gerenciar uma máquina virtual definida pelo arquivo Vagrantfile fornecido. O objetivo é fornecer instruções precisas e técnicas para usuários que necessitam utilizar esta VM para desenvolvimento ou testes.
 
-Este guia irá te ajudar a instalar o **VirtualBox** e o **Vagrant** no seu computador e te ensinar a executar uma máquina virtual usando o arquivo **Vagrantfile**. Siga as instruções passo a passo para garantir que tudo funcione corretamente.
+## Pré-requisitos
 
-## Passo 1: Instalando o VirtualBox
+- **Conexão com a internet** para download dos softwares e da imagem da VM.
+- **Privilégios de administrador** no sistema operacional hospedeiro.
 
-O **VirtualBox** é uma ferramenta que permite criar e gerenciar máquinas virtuais. Vamos instalar essa ferramenta primeiro.
+## Passo 1: Instalação do VirtualBox
 
-1. **Acesse o site do VirtualBox:**
-   - Vá até [https://www.virtualbox.org](https://www.virtualbox.org).
+O VirtualBox atuará como o hipervisor para nossa máquina virtual.
 
-2. **Baixe o instalador:**
-   - Na página inicial, clique em **"Download VirtualBox"**.
-   - Escolha a versão do VirtualBox que corresponde ao seu sistema operacional (Windows, macOS ou Linux).
+### Download do VirtualBox
 
-3. **Execute o instalador:**
-   - Após o download, abra o arquivo de instalação.
-   - Siga as instruções do instalador para concluir a instalação. Se aparecerem opções, deixe as configurações padrão.
+1. Acesse o site oficial: [VirtualBox](https://www.virtualbox.org).
+2. Clique em "Download VirtualBox".
+3. Selecione o instalador correspondente ao seu sistema operacional (Windows, macOS ou Linux).
 
-4. **Verifique se a instalação foi bem-sucedida:**
-   - Abra o **VirtualBox** no seu computador. Se o programa abrir sem erros, a instalação foi concluída corretamente.
+### Execução do Instalador
 
-## Passo 2: Instalando o Vagrant
+1. Localize o arquivo baixado e execute-o.
+2. Siga as instruções do assistente de instalação. **Recomenda-se manter as configurações padrão**, a menos que haja uma necessidade específica de alteração.
+3. Durante a instalação, poderão ser solicitadas permissões para instalar drivers de rede. **Conceda essas permissões** para o correto funcionamento do VirtualBox.
 
-O **Vagrant** é uma ferramenta que automatiza a criação e gerenciamento de ambientes de desenvolvimento virtualizados. Vamos instalá-lo.
+### Verificação da Instalação
 
-1. **Acesse o site do Vagrant:**
-   - Vá até [https://www.vagrantup.com](https://www.vagrantup.com).
+1. Após a conclusão, procure por "VirtualBox" no menu de aplicativos do seu sistema operacional e execute-o.
+2. Se o aplicativo abrir sem erros, a instalação foi bem-sucedida.
 
-2. **Baixe o instalador:**
-   - Na página inicial, clique em **"Download"**.
-   - Escolha a versão do Vagrant que corresponde ao seu sistema operacional.
+## Passo 2: Instalação do Vagrant
 
-3. **Execute o instalador:**
-   - Após o download, abra o arquivo de instalação.
-   - Siga as instruções na tela para concluir a instalação.
+O Vagrant será utilizado para automatizar a criação e o gerenciamento do ciclo de vida da máquina virtual.
 
-4. **Verifique a instalação do Vagrant:**
-   - Abra o **terminal** (Prompt de Comando no Windows ou Terminal no macOS/Linux) e digite o comando:
+### Download do Vagrant
 
-     ```bash
-     vagrant --version
-     ```
+1. Acesse o site oficial: [Vagrant](https://www.vagrantup.com).
+2. Clique em "Download".
+3. Escolha o instalador compatível com o seu sistema operacional.
 
-   - Se o Vagrant mostrar a versão instalada, significa que a instalação foi bem-sucedida.
+### Execução do Instalador
 
-## Passo 3: Executando a Máquina Virtual com Vagrant
+1. Execute o arquivo de instalação baixado.
+2. Siga as instruções apresentadas na tela para completar a instalação.
 
-Agora que o VirtualBox e o Vagrant estão instalados, é hora de iniciar a máquina virtual.
+### Verificação da Instalação
 
-1. **Baixe ou clone o repositório com o Vagrantfile:**
-   - Se você já tem o repositório com o arquivo `Vagrantfile`, ótimo! Caso contrário, baixe ou clone o repositório que contém o arquivo `Vagrantfile` para o seu computador.
-
-2. **Abra o terminal na pasta onde está o `Vagrantfile`:**
-   - No **Windows**, abra o **Prompt de Comando**.
-   - No **macOS/Linux**, abra o **Terminal**.
-
-   Em seguida, use o comando `cd` para navegar até a pasta que contém o arquivo `Vagrantfile`. Por exemplo:
+1. Abra o terminal (Prompt de Comando no Windows ou Terminal no macOS/Linux).
+2. Execute o seguinte comando para verificar a versão do Vagrant instalada:
 
    ```bash
-   cd /caminho/para/o/diretorio/do/vagrantfile
+   vagrant --version
    ```
 
-## Passo 4: Parando a Máquina Virtual
+3. Se a saída exibir o número da versão do Vagrant, a instalação foi bem-sucedida.
 
-Quando terminar de usar a máquina virtual, você pode pará-la (sem destruí-la) para usá-la novamente mais tarde.
+## Passo 3: Inicializando a Máquina Virtual
 
-### Parar a VM:
+Com o VirtualBox e Vagrant instalados, podemos iniciar a máquina virtual definida pelo Vagrantfile.
 
-Use o seguinte comando no terminal para desligar a máquina virtual de forma segura:
+### Navegação até o Diretório do Vagrantfile
 
-```bash
-vagrant halt
-```
-
-Isso vai parar a máquina, mas manterá a configuração e os dados para a próxima vez que você usar o comando `vagrant up`.
-
-## Passo 5: Destruindo e Apagando a Máquina Virtual
-
-Se você quiser remover completamente a máquina virtual e começar tudo do zero, use o comando `vagrant destroy`.
-
-### Destruir a máquina virtual:
-
-Para apagar a VM e todos os dados dentro dela, execute:
+Utilize o terminal para navegar até o diretório onde o arquivo Vagrantfile está localizado. Por exemplo:
 
 ```bash
-vagrant destroy
+cd /caminho/para/o/diretorio/do/vagrantfile
 ```
 
-Este comando não pode ser desfeito e irá apagar a máquina virtual permanentemente.
+Certifique-se de que o arquivo Vagrantfile fornecido esteja presente neste diretório.
 
-### Subir uma nova VM do zero:
+### Inicialização da VM
 
-Após destruir a máquina virtual, você pode iniciar uma nova com o comando:
+No terminal, dentro do diretório do Vagrantfile, execute o seguinte comando para criar e iniciar a máquina virtual:
 
 ```bash
 vagrant up
 ```
 
-O Vagrant irá baixar novamente a imagem e iniciar uma nova máquina virtual.
+Este comando irá:
 
-## Passo 6: Comandos para Criar, Destruir e Desligar as Máquinas Virtuais
+- **Verificar** a existência da box especificada (`debian/bookworm64`). Se não existir localmente, o Vagrant fará o download da imagem.
+- **Criar** a máquina virtual no VirtualBox com as configurações definidas no Vagrantfile.
+- **Configurar** a rede privada com o IP `192.168.56.10`.
+- **Alocar** os recursos de hardware especificados (1024MB de memória e 1 CPU).
+- **Sincronizar** a pasta local `./competidor-01` com o diretório `/var/www/html` na VM.
+- **Executar** o script de provisionamento para instalar o ambiente LAMP (Apache2, MariaDB, PHP) e criar o usuário `competidor`.
+- **Exibir** informações de acesso ao servidor no terminal.
 
-Aqui estão os comandos principais que você vai usar para criar, destruir e desligar as máquinas virtuais no Vagrant:
+## Passo 4: Gerenciando o Ciclo de Vida da Máquina Virtual
 
-### Criar e iniciar uma nova máquina virtual:
+O Vagrant oferece diversos comandos para gerenciar o estado da máquina virtual.
 
-Para criar e iniciar uma nova máquina virtual com base no arquivo Vagrantfile, use:
+- **Iniciar uma VM parada:**
+  ```bash
+  vagrant up
+  ```
+- **Pausar a VM:**
+  ```bash
+  vagrant suspend
+  ```
+  Para retomar:
+  ```bash
+  vagrant up
+  ```
+- **Desligar a VM:**
+  ```bash
+  vagrant halt
+  ```
+- **Reiniciar a VM:**
+  ```bash
+  vagrant reload
+  ```
+- **Destruir a VM:**
+  ```bash
+  vagrant destroy
+  ```
 
-```bash
-vagrant up
-```
+## Passo 5: Acessando a Máquina Virtual
 
-Esse comando irá iniciar a VM, fazendo o download da imagem, se necessário, e configurando a máquina virtual.
-
-### Desligar a máquina virtual sem destruí-la:
-
-Se você quiser parar a máquina virtual sem apagá-la, use:
-
-```bash
-vagrant halt
-```
-
-Este comando desliga a máquina virtual de forma segura, mas a deixa disponível para ser iniciada novamente no futuro.
-
-### Destruir a máquina virtual:
-
-Para remover completamente a máquina virtual e apagar todos os dados, use:
-
-```bash
-vagrant destroy
-```
-
-Atenção: Este comando apaga todos os dados e configurações da máquina virtual e não pode ser desfeito. Após destruí-la, você precisará rodar o comando `vagrant up` novamente para recriar a máquina.
-
-### Reiniciar a máquina virtual (se já estiver em execução):
-
-Se a máquina virtual já estiver em execução e você quiser reiniciá-la, use:
-
-```bash
-vagrant reload
-```
-
-Este comando vai reiniciar a VM e aplicar quaisquer mudanças feitas no arquivo Vagrantfile.
-
-## Passo 7: Dicas e Problemas Comuns
-
-- **Erro ao iniciar a VM:** Se você encontrar problemas ao rodar o comando `vagrant up`, tente verificar se o VirtualBox está instalado corretamente e se sua máquina tem memória suficiente para rodar a VM.
+- **Via navegador (Apache):**
+  ```
+  http://192.168.56.10
+  ```
+- **Via SFTP:**
+  - **Host:** `192.168.56.10`
+  - **Usuário:** `competidor`
+  - **Senha:** `senai914`
+  - **Porta:** `22`
+- **Via SSH:**
+  ```bash
+  ssh competidor@192.168.56.10
+  ```
+  **Senha:** `senai914`
   
-- **Erro no Windows ao rodar `vagrant up`:** Certifique-se de que o Vagrant e o VirtualBox foram instalados corretamente e que o comando `vagrant` está acessível no terminal. Pode ser necessário reiniciar o computador após a instalação.
 
-- **Necessidade de privilégios de administrador:** Se o seu sistema pedir privilégios de administrador durante a instalação do VirtualBox ou Vagrant, clique em "Sim" ou "Permitir" para continuar a instalação.
+## Passo 6: Informações Adicionais e Troubleshooting
 
--**Erro "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!": Um novo servidor foi criado com o o mesm IP, é necessário limpar a chave ssh para este IP**
+### Erro "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"
+
+Esse erro ocorre quando a chave SSH do servidor remoto (neste caso, a máquina virtual) mudou em relação à chave armazenada localmente no arquivo `~/.ssh/known_hosts`. Isso pode acontecer nos seguintes cenários:
+
+- A máquina virtual foi destruída (`vagrant destroy`) e recriada (`vagrant up`), resultando em uma nova identidade SSH.
+- A box base da VM foi atualizada, gerando um novo par de chaves.
+- O endereço IP configurado para a VM foi utilizado anteriormente por outra máquina com uma chave SSH diferente.
+
+Quando isso acontece, o SSH bloqueia a conexão para evitar possíveis ataques man-in-the-middle. Para corrigir o problema, remova a entrada antiga da chave SSH associada ao IP da VM com o seguinte comando:
+
 ```bash
 ssh-keygen -R 192.168.56.10
 ```
 
-Se você ainda tiver problemas, consulte a documentação oficial ou entre em contato com o seu instrutor.
+Isso limpará a chave antiga armazenada no seu computador, permitindo que uma nova conexão SSH seja estabelecida sem conflitos.
 
 ## Conclusão
 
-Agora que você configurou o VirtualBox e o Vagrant, pode começar a criar e gerenciar máquinas virtuais de maneira fácil e automatizada. Aproveite a flexibilidade de testar ambientes diferentes e explorar novas tecnologias!
+Este guia forneceu os passos necessários para instalar e utilizar a máquina virtual definida pelo Vagrantfile. Utilize os comandos do Vagrant para controlar o ciclo de vida da VM de acordo com suas necessidades.
 
-Boa sorte e bons estudos! 😄
