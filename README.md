@@ -82,7 +82,7 @@ Este comando irá:
 - **Criar** a máquina virtual no VirtualBox com as configurações definidas no Vagrantfile.
 - **Configurar** a rede privada com o IP `192.168.56.10`.
 - **Alocar** os recursos de hardware especificados (1024MB de memória e 1 CPU).
-- **Sincronizar** a pasta local `./competidor-01` com o diretório `/var/www/html` na VM.
+- **Sincronizar** a pasta local `./www-vm` com o diretório `/var/www/html` na VM.
 - **Executar** o script de provisionamento para instalar o ambiente LAMP (Apache2, MariaDB, PHP) e criar o usuário `competidor`.
 - **Exibir** informações de acesso ao servidor no terminal.
 

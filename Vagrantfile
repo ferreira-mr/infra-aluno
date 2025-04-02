@@ -1,8 +1,12 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/bookworm64"
 
-  # Configuração da rede privada com IP fixo
+  # Configuração da rede privada com IP fixo, apenas a maquina onde roda a VM terá acesso
   config.vm.network "private_network", ip: "192.168.56.10"
+
+  # Configuração da rede pública com DHCP, descomente esta linha caso queira que a máquina seja acessivel na rede local, lembre-se se comentar a linha de rede privada, utilize esta opção apenas se for necessário acessar a máquina virtual na rede local
+  # Atente-se ao fato que será solicita, no terminal, qual interface de rede deverá ser utilizada.
+  # config.vm.network "public_network"
 
   # Configuração de hardware da VM
   config.vm.provider "virtualbox" do |vb|
@@ -12,7 +16,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Sincronizar pasta do host com o diretório do Apache na VM
-  config.vm.synced_folder "./competidor-01", "/var/www/html", type: "virtualbox", create: true
+  config.vm.synced_folder "./www-vm", "/var/www/html", type: "virtualbox", create: true
 
   # Instalação do ambiente LAMP
   config.vm.provision "shell", inline: <<-SHELL
