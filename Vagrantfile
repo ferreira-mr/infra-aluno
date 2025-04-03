@@ -21,7 +21,10 @@ Vagrant.configure("2") do |config|
   # Instalação do ambiente LAMP
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y apache2 mariadb-server php libapache2-mod-php php-mysql sudo openssh-server
+    apt-get install -y apache2 mariadb-server sudo openssh-server curl
+    # apt-get install -y php libapache2-mod-php php-mysql php-cli php-mbstring php-xml php-bcmath php-tokenizer php-zip unzip curl sudo openssh-server
+
+    /bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.4)"
 
     # Criação do usuário competidor
     if ! id "competidor" &>/dev/null; then
@@ -46,28 +49,34 @@ Vagrant.configure("2") do |config|
     FLUSH PRIVILEGES;"
   SHELL
 
-  # Exibir IP no terminal (sempre que a máquina for iniciada)
-  config.vm.provision "shell", inline: <<-SHELL, run: "always"
-    IP=$(ip -4 addr show eth1 | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')
-    echo ""
-    echo "##############################################################################"
-    echo "Acessos ao Servidor SP Skills"
-    echo ""
-    echo "Apache (navegador web): http://$IP"
-    echo ""
-    echo "Conexão SFTP:"
-    echo "  Host: $IP"
-    echo "  Usuário: competidor"
-    echo "  Senha: senai914"
-    echo "  Porta: 22"
-    echo ""
-    echo "Conexão SSH:"
-    echo "  Host: $IP"
-    echo "  Usuário: competidor"
-    echo "  Senha: senai914"
-    echo "##############################################################################"
-    echo ""
-  SHELL
+# Exibir IP no terminal (sempre que a máquina for iniciada)
+config.vm.provision "shell", inline: <<-SHELL, run: "always"
+  IP=$(ip -4 addr show eth1 | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')
+  echo ""
+  echo "##############################################################################"
+  echo "Acessos ao Servidor SP Skills"
+  echo ""
+  echo "Apache (navegador web): http://$IP"
+  echo ""
+  echo "Conexão SFTP:"
+  echo "  Host: $IP"
+  echo "  Usuário: competidor"
+  echo "  Senha: senai914"
+  echo "  Porta: 22"
+  echo ""
+  echo "Conexão SSH:"
+  echo "  Host: $IP"
+  echo "  Usuário: competidor"
+  echo "  Senha: senai914"
+  echo ""
+  echo "Acesso ao Banco de Dados:"
+  echo "  Host: $IP"
+  echo "  Usuário: competidor"
+  echo "  Senha: senai914"
+  echo "  Porta: 3306"
+  echo "##############################################################################"
+  echo ""
+SHELL
 
   # Habilitar autenticação SSH ao usuário competidor
   config.vm.provision "shell", inline: <<-SHELL
