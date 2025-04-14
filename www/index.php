@@ -3,7 +3,6 @@
 $apache_version = apache_get_version();
 $php_version = phpversion();
 $mysql_version = mysqli_get_client_version();
-
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +10,7 @@ $mysql_version = mysqli_get_client_version();
 
 <head>
   <meta charset="UTF-8">
-  <title>Bem-vindo ao Servidor de Treinamento da SP Skills!</title>
+  <title>SENAI SP</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -47,18 +46,18 @@ $mysql_version = mysqli_get_client_version();
     }
 
     .footer {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #666666;
-        }
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #666666;
+    }
   </style>
 </head>
 
 <body>
   <img src="senai-logo.png" alt="Logo SENAI-SP" class="logo">
-  <h1>Seja bem-vindo ao servidor de treinamento da SP Skills!</h1>
+  <h1>Seja bem-vindo ao servidor local de estudos!</h1>
   <p>Este servidor foi configurado para auxiliar no desenvolvimento das suas habilidades. Explore os recursos
-    disponíveis e aproveite ao máximo seu treinamento.</p>
+    disponíveis e aproveite ao máximo seu tempo.</p>
 
   <div class="footer">
     <p><strong>Versão do Apache:</strong> <?php echo $apache_version; ?></p>

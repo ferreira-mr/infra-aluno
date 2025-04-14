@@ -41,11 +41,11 @@ Se você tem o Git instalado, este é o método preferido, pois facilita futuras
 2.  **Navegue até o diretório onde deseja salvar o projeto.** (Ex: `cd Documentos`)
 3.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/ferreira-mr/infra-competidor.git
+    git clone https://github.com/ferreira-mr/infra-aluno.git
     ```
-4.  **Acesse a pasta do projeto:** O Git criará uma pasta chamada `infra-competidor`. Entre nela:
+4.  **Acesse a pasta do projeto:** O Git criará uma pasta chamada `infra-aluno`. Entre nela:
     ```bash
-    cd infra-competidor
+    cd infra-aluno
     ```
     **Você executará os próximos comandos do Vagrant (Passo 3 em diante) dentro desta pasta.**
 
@@ -53,22 +53,22 @@ Se você tem o Git instalado, este é o método preferido, pois facilita futuras
 
 Se você não tem ou não quer usar o Git.
 
-1.  **Acesse o Repositório:** Abra [https://github.com/ferreira-mr/infra-competidor/](https://github.com/ferreira-mr/infra-competidor/) no seu navegador.
-2.  **Baixe o ZIP:** Clique no botão verde "<> Code", e depois em "Download ZIP" ou [diretamente neste link](https://github.com/ferreira-mr/infra-competidor/archive/refs/heads/master.zip).
-3.  **Extraia o Arquivo:** Localize o arquivo `.zip` baixado (geralmente `infra-competidor-main.zip` ou similar) e extraia seu conteúdo para um local de sua preferência. Isso criará uma pasta (provavelmente chamada `infra-competidor-main`).
+1.  **Acesse o Repositório:** Abra [https://github.com/ferreira-mr/infra-aluno/](https://github.com/ferreira-mr/infra-aluno/) no seu navegador.
+2.  **Baixe o ZIP:** Clique no botão verde "<> Code", e depois em "Download ZIP" ou [diretamente neste link](https://github.com/ferreira-mr/infra-alunos/archive/refs/heads/master.zip).
+3.  **Extraia o Arquivo:** Localize o arquivo `.zip` baixado (geralmente `infra-aluno-main.zip` ou similar) e extraia seu conteúdo para um local de sua preferência. Isso criará uma pasta (provavelmente chamada `infra-aluno-main`).
 4.  **Abra o Terminal:**
     * **Windows:** Prompt de Comando, PowerShell.
     * **macOS/Linux:** Terminal.
 5.  **Acesse a pasta do projeto:** Use o comando `cd` para navegar até a pasta que você acabou de extrair. **Verifique o nome exato da pasta!**
     ```bash
     # Exemplo (o nome da pasta pode variar):
-    cd /caminho/para/onde/voce/extraiu/infra-competidor-main
+    cd /caminho/para/onde/voce/extraiu/infra-aluno-main
     ```
     **Você executará os próximos comandos do Vagrant (Passo 3 em diante) dentro desta pasta.**
 
 ---
 
-*A partir daqui, todos os comandos `vagrant` devem ser executados dentro da pasta do projeto (`infra-competidor` ou `infra-competidor-main`).*
+*A partir daqui, todos os comandos `vagrant` devem ser executados dentro da pasta do projeto (`infra-aluno` ou `infra-aluno-main`).*
 
 ---
 
@@ -98,7 +98,7 @@ O Vagrant automatiza a criação e o gerenciamento da VM.
 
 Agora que as ferramentas estão instaladas e você está dentro da pasta do projeto (obtida no Passo 0), vamos iniciar a VM.
 
-1.  **Certifique-se de estar no diretório correto:** Use `pwd` (Linux/macOS) ou `cd` (Windows) no terminal para confirmar que você está na pasta `infra-competidor` (ou `infra-competidor-main`). O arquivo `Vagrantfile` deve estar presente neste diretório.
+1.  **Certifique-se de estar no diretório correto:** Use `pwd` (Linux/macOS) ou `cd` (Windows) no terminal para confirmar que você está na pasta `infra-aluno` (ou `infra-aluno-main`). O arquivo `Vagrantfile` deve estar presente neste diretório.
 2.  **Execute o comando `vagrant up`:**
     ```bash
     vagrant up
@@ -107,9 +107,9 @@ Agora que as ferramentas estão instaladas e você está dentro da pasta do proj
     * **Verifica/Baixa a Box:** Confere se a imagem base (`debian/bookworm64`) existe localmente. Caso contrário, faz o download (pode levar algum tempo na primeira vez).
     * **Cria a VM:** Instancia uma nova máquina virtual no VirtualBox.
     * **Configura Recursos:** Aloca 1024MB de RAM e 1 CPU (conforme definido no `Vagrantfile`).
-    * **Configura Rede:** Estabelece uma rede privada com o IP estático `192.168.56.10`.
+    * **Configura Rede:** Estabelece o redirecionamento das portas utilizadas na VM do `localhost`.
     * **Sincroniza Pastas:** Mapeia a pasta local `./www-vm` (dentro da pasta do projeto) para o diretório `/var/www/html` dentro da VM.
-    * **Executa Provisionamento:** Roda o script de configuração (`provision.sh`, localizado na pasta do projeto) para instalar e configurar o ambiente LAMP (Apache2, MariaDB, PHP - verifique o script para versões exatas) e criar o usuário `competidor`.
+    * **Executa Provisionamento:** Roda o script de configuração (`provision.sh`, localizado na pasta do projeto) para instalar e configurar o ambiente LAMP (Apache2, MariaDB, PHP - verifique o script para versões exatas) e criar o usuário `aluno`.
     * **Inicia a VM:** Liga a máquina virtual.
 
 Aguarde até que o processo seja concluído. Você verá várias mensagens no terminal.
@@ -150,20 +150,20 @@ Use estes comandos do Vagrant (sempre dentro da pasta do projeto) para gerenciar
 Após o `vagrant up` ser concluído com sucesso, você pode acessar a VM:
 
 -   **Via Navegador (Servidor Web Apache):**
-    Abra seu navegador e acesse: `http://192.168.56.10`
+    Abra seu navegador e acesse: `http://localhost:8080`
     Você deverá ver a página padrão do Apache ou o conteúdo da pasta `./www-vm`.
 
 -   **Via SFTP (Transferência de Arquivos):**
     Use um cliente SFTP (como FileZilla, WinSCP, Cyberduck):
-    -   **Host/Servidor:** `192.168.56.10`
-    -   **Usuário:** `competidor`
+    -   **Host/Servidor:** `localhost`
+    -   **Usuário:** `aluno`
     -   **Senha:** `senai914`
-    -   **Porta:** `22`
+    -   **Porta:** `8022`
 
 -   **Via SSH (Acesso ao Terminal da VM):**
     No seu terminal local:
     ```bash
-    ssh competidor@192.168.56.10
+    ssh -p 8022 aluno@localhost
     ```
     Quando solicitado, digite a **Senha:** `senai914`
 
@@ -174,19 +174,19 @@ Após o `vagrant up` ser concluído com sucesso, você pode acessar a VM:
     Isso conecta você diretamente via SSH sem precisar de senha (usa chave gerenciada pelo Vagrant).
 
 -   **Acesso ao Banco de Dados (MariaDB):**
-    1.  Conecte-se à VM via SSH (`vagrant ssh` ou `ssh competidor@192.168.56.10`).
+    1.  Conecte-se à VM via SSH (`vagrant ssh` ou `ssh -p 8022 aluno@localhost`).
     2.  Dentro da VM, acesse o MariaDB:
         ```bash
-        mysql -u competidor -p
+        mysql -u aluno -p
         ```
         Digite a senha `senai914` quando solicitado.
         *(Nota: O script de provisionamento pode ter configurado outras credenciais ou o acesso root. Verifique `provision.sh` para detalhes)*.
 
-**⚠️ Nota de Segurança:** A senha `senai914` é definida para facilitar o acesso inicial em ambiente de desenvolvimento local. **Não utilize esta configuração em produção ou ambientes expostos.** Para maior segurança, considere alterar a senha do usuário `competidor` dentro da VM (`passwd competidor`) e configurar o acesso SSH via chaves públicas/privadas em vez de senha.
+**⚠️ Nota de Segurança:** A senha `senai914` é definida para facilitar o acesso inicial em ambiente de desenvolvimento local. **Não utilize esta configuração em produção ou ambientes expostos.** Para maior segurança, considere alterar a senha do usuário `aluno` dentro da VM (`passwd aluno`) e configurar o acesso SSH via chaves públicas/privadas em vez de senha.
 
 ## Passo 6: Como Usar o Ambiente
 
-1.  **Desenvolvimento Web:** Coloque os arquivos do seu site ou aplicação (PHP, HTML, CSS, JS) na pasta `./www-vm` no seu computador. Eles aparecerão automaticamente em `http://192.168.56.10` devido à sincronização de pastas.
+1.  **Desenvolvimento Web:** Coloque os arquivos do seu site ou aplicação (PHP, HTML, CSS, JS) na pasta `/var/html/www` no seu computador. Eles aparecerão automaticamente em `http://localhost:8080` devido à sincronização de pastas.
 2.  **Gerenciamento do Banco de Dados:** Use o cliente `mysql` via SSH (como mostrado acima) ou instale uma ferramenta gráfica como phpMyAdmin dentro da VM, se necessário.
 3.  **Executar Comandos na VM:** Use a conexão SSH (`vagrant ssh`) para instalar pacotes adicionais (`sudo apt update && sudo apt install <pacote>`), gerenciar serviços (`sudo systemctl status apache2`), etc.
 
@@ -195,7 +195,7 @@ Após o `vagrant up` ser concluído com sucesso, você pode acessar a VM:
 -   **Erro "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!":**
     Isso geralmente acontece se você destruiu (`vagrant destroy`) e recriou (`vagrant up`) a VM. A identidade SSH da VM mudou. Solução: remova a chave antiga do seu arquivo `known_hosts`. No seu terminal local, execute:
     ```bash
-    ssh-keygen -R 192.168.56.10
+    ssh-keygen -R [localhost]:8022
     ```
     Tente conectar via SSH novamente.
 
